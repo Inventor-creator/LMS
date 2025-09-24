@@ -4,6 +4,7 @@ import LearningManagementSystem.Model.Student;
 
 
 @Entity
+@Table(name = "StudentInfo")
 public class StudentInfo {
 
     @Id
@@ -23,6 +24,10 @@ public class StudentInfo {
     private String email;
     @Column(name="studentName")
     private String studentName;
+
+    public StudentInfo(){
+
+    }
 
     public StudentInfo(Student student, String address, String number, String email, String studentName) {
         this.student = student;

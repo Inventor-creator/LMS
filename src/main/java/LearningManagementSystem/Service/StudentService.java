@@ -1,9 +1,12 @@
 package LearningManagementSystem.Service;
 
+import LearningManagementSystem.Model.Branches;
 import LearningManagementSystem.Model.Student;
 import LearningManagementSystem.Model.StudentInfo;
+import LearningManagementSystem.Repositories.BranchRepo;
 import LearningManagementSystem.Repositories.StudentInfoRepo;
 import LearningManagementSystem.Repositories.StudentRepo;
+import LearningManagementSystem.requestObjects.AllStudentInfo;
 import LearningManagementSystem.requestObjects.RequestStudent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,13 +20,23 @@ public class StudentService {
     StudentRepo sRepo;
     @Autowired
     StudentInfoRepo sInfoRepo;
+    @Autowired
+    BranchRepo bRepo;
+
     public Optional<Student> getUserService(Integer userId){
         return sRepo.findById(userId);
     }
 
     public String createStudentService(RequestStudent student){
+        Student stu;
+        Optional<Branches> branch = bRepo.getBranchByName(student.BranchName);
 
-        Student stu = new Student(student.year);
+        if(branch.isPresent()) {
+            stu = new Student(student.year, branch.get());
+        }
+        else{
+            stu = new Student(student.year, null);
+        }
         sRepo.save(stu);
         StudentInfo stuInfo = new StudentInfo( stu ,student.address , student.number , student.email , student.studentName);
 
@@ -32,8 +45,9 @@ public class StudentService {
         return "User created successfully";
     }
 
-    public List<Student> getAll(){
-        return sRepo.findAll();
+    public List<AllStudentInfo> getAll(){
+
+        return sRepo.getAllStudents();
     }
 
     public List<Student> getByYear(Integer year){

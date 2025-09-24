@@ -1,12 +1,6 @@
 package LearningManagementSystem.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Student" , indexes={
@@ -22,12 +16,17 @@ public class Student {
     private Integer year;
 
     //branch table column here
+    @ManyToOne
+    @JoinColumn(name = "branchId" , referencedColumnName = "branchId")
+    private Branches branch;
 
     public Student(){
 
     }
-    public Student(int year) {
+
+    public Student(Integer year, Branches branch) {
         this.year = year;
+        this.branch = branch;
     }
 
     public Integer getStudentId() {
@@ -44,5 +43,6 @@ public class Student {
                 ", year=" + year +
                 '}';
     }
+
 }
 

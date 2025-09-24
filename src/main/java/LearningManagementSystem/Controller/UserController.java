@@ -2,6 +2,7 @@ package LearningManagementSystem.Controller;
 
 import LearningManagementSystem.Model.Student;
 import LearningManagementSystem.Service.StudentService;
+import LearningManagementSystem.requestObjects.AllStudentInfo;
 import LearningManagementSystem.requestObjects.RequestStudent;
 import jakarta.persistence.Column;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/test")
-    public List<Student> getShit(){
+    public List<AllStudentInfo>  getShit(){
         return sService.getAll();
     }
 
