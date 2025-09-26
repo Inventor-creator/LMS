@@ -8,12 +8,19 @@ public class Branches {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "branchId")
     private int branchId;
 
+    @Column(name = "branchName")
     private String branchName;
 
+    public Branches(String branchName) {
+        this.branchName = branchName;
+    }
 
+    public Branches(){
 
+    }
     public int getBranchId() {
         return branchId;
     }
