@@ -1,11 +1,16 @@
 package LearningManagementSystem.Controller;
 
 
+import LearningManagementSystem.Model.Courses;
+import LearningManagementSystem.Model.EnrollmentInfo;
 import LearningManagementSystem.Service.EnrollmentsService;
 import LearningManagementSystem.requestObjects.EnrollStudentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class Enrollments {
@@ -25,17 +30,25 @@ public class Enrollments {
 
     }
 
-//    @GetMapping("/studentsEnrolled/{courseId}")
-//    public String checkEnrolled(@PathVariable Integer courseId){
-//
-//    }
-//
-//    @GetMapping("/enrolledCourses/{studentId}")
-//    public String enrolledCourses(@RequestParam Integer active ,@PathVariable Integer studentId){
-//
-//
-//
-//    }
+    @GetMapping("/studentsEnrolled/{courseId}")
+    public List<EnrollmentInfo> checkEnrolled(@PathVariable Integer courseId){
+
+        return eService.getEnrollmentByCourse(courseId);
+
+    }
+
+    @GetMapping("/enrolledCourses/{studentId}")
+    public List<Courses> enrolledCourses( @PathVariable Integer studentId, @RequestParam Integer isActive){
+        Boolean active = isActive == 1;
+        List<Courses> enrolledCourses = new ArrayList<>();
+        List<EnrollmentInfo> eInfo =  eService.getEnrollmentOfStudents(studentId , active);
+        for(int i = 0 ; i <  eInfo.toArray().length; i++){
+            enrolledCourses.add(eInfo.get(i).getCourse());
+        }
+
+        return enrolledCourses;
+
+    }
 
 
 }

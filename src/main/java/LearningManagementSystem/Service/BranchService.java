@@ -13,12 +13,14 @@ public class BranchService {
 
     public boolean createBranch(Branches branch){
         try{
+            if( (branchRepo.getBranchByName(branch.getBranchName())).isPresent() ){
+                throw new RuntimeException();
+            }
             branchRepo.save(branch);
             return true;
         } catch (Exception e) {
             return false;
         }
-
     }
 
 }

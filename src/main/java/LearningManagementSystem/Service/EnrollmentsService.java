@@ -10,6 +10,7 @@ import LearningManagementSystem.requestObjects.EnrollStudentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,6 +40,24 @@ public class EnrollmentsService {
 
             return false;
         }
+    }
+
+    public List<EnrollmentInfo> getEnrollmentByCourse(Integer courseId){
+
+        Optional<Courses> course = cRepo.findById(courseId);
+
+        if(course.isPresent()){
+
+            return eRepo.getByCourseId(courseId);
+
+        }
+        return null;
+    }
+
+    public List<EnrollmentInfo> getEnrollmentOfStudents(Integer studentId , Boolean active){
+
+        return eRepo.getByStudentIdAndActive(studentId  , active);
+
     }
 
 }
