@@ -25,6 +25,8 @@ public class EnrollmentsService {
 
     public boolean enroll(EnrollStudentRequest enrollStudentRequest){
 
+
+        //takes courseId, so configure frontend request acc
         Optional<Courses> course = cRepo.findById(enrollStudentRequest.courseId);
         Optional<Student> student = sRepo.findById(enrollStudentRequest.studentId);
 
@@ -54,9 +56,9 @@ public class EnrollmentsService {
         return null;
     }
 
-    public List<EnrollmentInfo> getEnrollmentOfStudents(Integer studentId , Boolean active){
+    public List<EnrollmentInfo> getEnrollmentOfStudents(Integer studentId, Boolean active){
 
-        return eRepo.getByStudentIdAndActive(studentId  , active);
+        return eRepo.getByStudentIdAndActive(studentId ,  active);
 
     }
 

@@ -14,12 +14,28 @@ public class Courses {
     @Column(name = "courseName")
     private String courseName;
 
+    //foreign key to instructor
+    @ManyToOne
+    @JoinColumn(name="instructorId" , referencedColumnName = "instructorId")
+    private Instructors instructor;
+
     public Courses(){
 
     }
 
-    public Courses(String courseName) {
+
+    //take an instructor
+    public Courses(String courseName ,Instructors instructor) {
         this.courseName = courseName;
+        this.instructor = instructor;
+    }
+
+    public Instructors getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructors instructor) {
+        this.instructor = instructor;
     }
 
     public String getCourseName() {

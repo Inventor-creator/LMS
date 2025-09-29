@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="Student" , indexes={
-    @Index(name="year" , columnList="year")
+    @Index(name="yearIdx" , columnList="year")
 })
 public class Student {
     @Id

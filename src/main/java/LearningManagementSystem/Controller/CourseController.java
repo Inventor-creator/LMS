@@ -1,6 +1,6 @@
 package LearningManagementSystem.Controller;
 
-import LearningManagementSystem.Model.Courses;
+import LearningManagementSystem.requestObjects.createCourseReq;
 import LearningManagementSystem.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,7 +14,7 @@ public class CourseController {
     CourseService cService;
 
     @PostMapping("/createCourse")
-    public String createCourse(@RequestBody Courses course){
+    public String createCourse(@RequestBody createCourseReq course){
 
         if(cService.createRepo(course)){
             return "Course created successfully";

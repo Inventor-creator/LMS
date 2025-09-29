@@ -10,6 +10,8 @@ import java.util.Optional;
 
 public interface CourseRepo extends JpaRepository<Courses, Integer> {
 
-    @Query(value = "SELECT c FROM Courses c WHERE courseName = :name")
-    Optional<Courses> findByName(@Param("name") String Name);
+    @Query(value = "SELECT c FROM Courses c  WHERE courseName = :name AND c.instructor.instructorId =  :instructorId")
+    Optional<Courses> findByName(@Param("name") String Name , @Param("instructorId") Integer instructorId );
+
+
 }

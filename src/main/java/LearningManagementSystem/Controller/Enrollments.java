@@ -30,6 +30,8 @@ public class Enrollments {
 
     }
 
+    //takes courseId, so configure frontend request accordingly,
+    //stored in the database with the intention that multiple instructors can teach the same course
     @GetMapping("/studentsEnrolled/{courseId}")
     public List<EnrollmentInfo> checkEnrolled(@PathVariable Integer courseId){
 
@@ -49,6 +51,5 @@ public class Enrollments {
         return enrolledCourses;
 
     }
-
 
 }
