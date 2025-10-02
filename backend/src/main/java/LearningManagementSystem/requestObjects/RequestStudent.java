@@ -18,6 +18,4 @@ public class RequestStudent {
         this.BranchName = branchName;
     }
 
-
-
 }

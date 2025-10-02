@@ -25,7 +25,7 @@ public class Enrollments {
             return "User Enrolled successfully";
         }
         else{
-            return "userId or courseId dosent exist";
+            return "userId or courseId dosent exist or student has already enrolled in the given course";
         }
 
     }

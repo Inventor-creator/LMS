@@ -29,19 +29,19 @@ public class EnrollmentsService {
         //takes courseId, so configure frontend request acc
         Optional<Courses> course = cRepo.findById(enrollStudentRequest.courseId);
         Optional<Student> student = sRepo.findById(enrollStudentRequest.studentId);
-
         if (course.isPresent() && student.isPresent()) {
 
-            EnrollmentInfo enrollment = new EnrollmentInfo(enrollStudentRequest.year , student.get() , course.get() , false );
+            Optional<EnrollmentInfo> isEnrolled = eRepo.getByStudentAndCName(enrollStudentRequest.studentId ,course.get().getCourseName());
+            if(isEnrolled.isEmpty()) {
+                EnrollmentInfo enrollment = new EnrollmentInfo(enrollStudentRequest.year, student.get(), course.get(), false);
 
-            eRepo.save(enrollment);
+                eRepo.save(enrollment);
 
-            return true;
+                return true;
+            }
         }
-        else {
 
-            return false;
-        }
+        return false;
     }
 
     public List<EnrollmentInfo> getEnrollmentByCourse(Integer courseId){
