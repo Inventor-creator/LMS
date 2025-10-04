@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(allowCredentials = "true" , origins = "http://localhost:5173")
 @RestController
 public class UserController {
     @Autowired
     StudentService sService;
+
 
     @GetMapping("/getUser")
     public String getUserController(@RequestParam Integer studentId){
@@ -42,8 +44,10 @@ public class UserController {
 
     }
 
+
     @GetMapping("/test")
     public List<AllStudentInfo>  getShit(){
+
         return sService.getAll();
     }
 

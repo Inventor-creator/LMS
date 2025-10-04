@@ -3,11 +3,13 @@ package LearningManagementSystem.Controller;
 import LearningManagementSystem.Model.Instructors;
 import LearningManagementSystem.Service.InstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(allowCredentials = "true" , origins = "http://localhost:5173")
 public class InstructorController {
     @Autowired
     InstructorService iService;
