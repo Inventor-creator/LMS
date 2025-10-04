@@ -6,34 +6,37 @@ import EnrolledCourses from "./pages /EnrolledCourses";
 import Homepage from "./pages /Homepage";
 import Login from "./pages /Login";
 import api from './services/api';
+import AdminPage from './pages /AdminPage'; // Import your admin page component
 
-function RequireAuth({ children }) {
+// Pass requiredRole to RequireAuth for role-based access
+function RequireAuth({ children, requiredRole }) {
   const location = useLocation();
   const [checking, setChecking] = useState(true);
   const [valid, setValid] = useState(false);
 
   useEffect(() => {
-    // Get username from localStorage if available
-    const storedUser = localStorage.getItem("user");
-    let username = "";
-    if (storedUser) {
-      try {
-        username = JSON.parse(storedUser).username || "";
-      } catch {
-        username = "";
-      }
-    }
+    // Get user info from localStorage
+    const username = localStorage.getItem("user");
 
-    api.post('/checkValid', { username })
-      .then(() => {
-        setValid(true);
+    let role = localStorage.getItem("role");
+	
+	//checks if the local storage username and role is valid or not
+	api.post('/checkValid', { "name" :username  , "role": role })
+	.then(() => {
+        // If a requiredRole is specified, check if user has it
+        if (requiredRole && !role.includes(requiredRole)) {
+			console.log("Role mismatch");
+          	setValid(false);
+        } else {
+          setValid(true);
+        }
         setChecking(false);
       })
       .catch(() => {
         setValid(false);
         setChecking(false);
       });
-  }, [location]);
+  }, [location, requiredRole]);
 
   if (checking) return <div>Checking authentication...</div>;
   if (!valid) return <Navigate to="/login" replace />;
@@ -49,7 +52,7 @@ function App() {
         <Route
           path="/courses"
           element={
-            <RequireAuth>
+            <RequireAuth requiredRole="student">
               <EnrolledCourses />
             </RequireAuth>
           }
@@ -57,10 +60,19 @@ function App() {
         <Route
           path="/"
           element={
-            <RequireAuth>
-              <Homepage />
-            </RequireAuth>
+            
+			<Homepage />
+            
           }
+        />
+
+         <Route
+          path="/admin"
+          element={
+            <RequireAuth requiredRole="admin">
+              <AdminPage />
+            </RequireAuth>
+          }          
         />
       </Routes>
     </BrowserRouter>

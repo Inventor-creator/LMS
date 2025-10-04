@@ -8,15 +8,12 @@ const Navbar = () => {
 
   useEffect(() => {
     // Try to get username from localStorage first
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      try {
-        const userObj = JSON.parse(storedUser);
-        setUsername(userObj.username || "");
-      } catch {
-        setUsername("");
-      }
-    } 
+      const username = localStorage.getItem("user");
+      
+        
+      setUsername(username || "");
+      
+    
   }, [location]);
 
   const linkStyle = (path) => ({
@@ -53,7 +50,7 @@ const Navbar = () => {
         Login
       </Link>
       <div style={{ marginLeft: "auto", color: "#00ffea", fontWeight: "bold", fontSize: "1.1rem" }}>
-        {username && `Hello, ${username}`}
+        {username && `${username}`}
       </div>
     </nav>
   );

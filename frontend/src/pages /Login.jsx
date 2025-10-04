@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import api from "../services/api";
+import { redirect } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -10,15 +11,17 @@ const Login = () => {
     e.preventDefault();
     setError("");
     try {
-      // Send credentials to backend
-      const res = await api.post("/login",  { "email" : username, "password" :  password });
-      // Assuming backend sets a cookie via Set-Cookie header
-      // If you need to set manually, use document.cookie:
-      document.cookie = `jwt=${res.data.token}; path=/;`;
-      localStorage.setItem("user", JSON.stringify({ username }));
-      window.location.href = "/";
+		// Send credentials to backend
+		const res = await api.post("/login", { "email": username, "password" :  password } );
+		
+		
+		//set userId also
+		localStorage.setItem("user" , username);
+		localStorage.setItem("role" , res.data);
+		
+		window.location.href = "/"; 
     } catch (err) {
-      setError("Invalid credentials");
+      	setError("Invalid credentials");
     }
   };
 
