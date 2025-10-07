@@ -18,7 +18,9 @@ const Login = () => {
 		//set userId also
 		localStorage.setItem("user" , username);
 		localStorage.setItem("role" , res.data);
-		
+		localStorage.setItem("userId" , res.data); 
+
+
 		window.location.href = "/"; 
     } catch (err) {
       	setError("Invalid credentials");

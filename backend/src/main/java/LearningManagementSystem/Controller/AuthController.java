@@ -28,7 +28,7 @@ public class AuthController {
         //set cookies based on the login details
 
         if(checkStudent.isPresent()){
-
+            //set jwt based on email and role
             Cookie myCookie = new Cookie("token", "myCookieValue");
 
             // 2. Set Cookie properties (optional)
@@ -51,8 +51,13 @@ public class AuthController {
 
         //array of cookies
         Cookie[] reqCookie = request.getCookies();
-        
+        Cookie cookie = reqCookie[0];
+
+
+
 //        response.sendError(404);
+
+
 
         return "";
     }
