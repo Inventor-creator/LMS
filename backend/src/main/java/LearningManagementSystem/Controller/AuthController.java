@@ -2,6 +2,7 @@ package LearningManagementSystem.Controller;
 
 import LearningManagementSystem.Model.StudentPasses;
 import LearningManagementSystem.Service.Auth;
+import LearningManagementSystem.Service.StudentService;
 import LearningManagementSystem.requestObjects.Access;
 import LearningManagementSystem.requestObjects.LoginInfo;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,47 +20,49 @@ public class AuthController {
 
     @Autowired
     Auth auth;
+    @Autowired
+    StudentService sService;
     //post mapping with the body as username and pass
 
     @PostMapping("/login")
-    public String setCookie(@RequestBody LoginInfo logInfo , HttpServletResponse response   )throws java.io.IOException {
+    public Access setCookie(@RequestBody LoginInfo logInfo , HttpServletResponse response   )throws java.io.IOException {
 
         Optional<StudentPasses> checkStudent = auth.checkStuCredentials(logInfo);
-        //set cookies based on the login details
+
 
         if(checkStudent.isPresent()){
-            //set jwt based on email and role
-            Cookie myCookie = new Cookie("token", "myCookieValue");
 
-            // 2. Set Cookie properties (optional)
-            myCookie.setMaxAge(60 * 60 * 24); // 24 hours in seconds
-            myCookie.setPath("/"); // Available for all paths
-            myCookie.setHttpOnly(true); // Prevents client-side script access
+            Access userDeets = sService.getAccess(logInfo.getEmail());
 
+            response.addCookie(auth.getAuthCookie(userDeets ,logInfo.getEmail() ));
 
-            // 3. Add the cookie to the HttpServletResponse
-            response.addCookie(myCookie);
-            return "student";
+            return userDeets;
         }
 
         response.sendError(404);
-        return "";
+        return new Access();
     }
 
     @PostMapping("/checkValid")
-    public String validate(HttpServletRequest request  , Access access , HttpServletResponse response) throws java.io.IOException{
+    public String validate( @RequestBody Access access ,HttpServletRequest request  , HttpServletResponse response) throws java.io.IOException{
 
         //array of cookies
         Cookie[] reqCookie = request.getCookies();
         Cookie cookie = reqCookie[0];
 
+//        System.out.println(access);
+
+        if(auth.validateCookie(cookie , access)){
+            response.setStatus(200);
+            return "valid";
+
+        }
+        else{
+            response.sendError(403 );
+            return "not valid";
+        }
 
 
-//        response.sendError(404);
-
-
-
-        return "";
     }
 }
 

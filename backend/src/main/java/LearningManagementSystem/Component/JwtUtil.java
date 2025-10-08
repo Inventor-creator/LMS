@@ -1,12 +1,13 @@
 package LearningManagementSystem.Component;
 
+import LearningManagementSystem.requestObjects.Access;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -24,9 +25,14 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration; // in milliseconds
 
-    public String generateToken(UserDetail1s userDetails) {
+    public String generateToken(Access userDetails , String mail) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        claims.put("name",userDetails.getName() );
+        claims.put("role",userDetails.getRole() );
+        claims.put("id",userDetails.getId() );
+        claims.put("email" , mail);
+
+        return createToken(claims, userDetails.getName());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
@@ -39,11 +45,32 @@ public class JwtUtil {
                 .compact();
     }
 
+
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public Boolean isTokenExpired(String token) {
+        return extractAllClaims(token).getExpiration().before(new Date());
+    }
+
+    //integer id
+    public Boolean validateToken(String token, String username , Integer userId ) {
+        Claims claims = extractAllClaims(token);
+        final String extractedUsername = claims.getSubject();
+        final Integer id =  Integer.parseInt( claims.get("id").toString() );
+        final String extracMail = claims.get("email").toString();
+//        System.out.println(id + " " + extracMail+ " " + username);
+//        System.out.println(extractedUsername.equals(username) );
+        return (extractedUsername.equals(username) && !isTokenExpired(token) && id.equals(userId)  );
+    }
+
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-
-    // Methods for validation and extracting claims (e.g., extractUsername, validateToken)
-    // ... (omitted for brevity, but crucial for a complete implementation)
 }

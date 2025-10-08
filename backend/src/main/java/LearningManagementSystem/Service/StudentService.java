@@ -6,6 +6,7 @@ import LearningManagementSystem.Model.StudentInfo;
 import LearningManagementSystem.Repositories.BranchRepo;
 import LearningManagementSystem.Repositories.StudentInfoRepo;
 import LearningManagementSystem.Repositories.StudentRepo;
+import LearningManagementSystem.requestObjects.Access;
 import LearningManagementSystem.requestObjects.AllStudentInfo;
 import LearningManagementSystem.requestObjects.RequestStudent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,4 +55,10 @@ public class StudentService {
         return sRepo.getStudentByYear(year);
     }
 
+    public Access getAccess(String email){
+        Optional<AllStudentInfo> temp = sRepo.getIdNameByMail(email);
+
+        Access access = temp.isPresent() ?  new Access(email , "student" , temp.get().getStudentId()) :  new Access();
+        return access;
+    }
 }

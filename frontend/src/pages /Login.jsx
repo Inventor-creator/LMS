@@ -14,11 +14,12 @@ const Login = () => {
 		// Send credentials to backend
 		const res = await api.post("/login", { "email": username, "password" :  password } );
 		
-		
-		//set userId also
-		localStorage.setItem("user" , username);
-		localStorage.setItem("role" , res.data);
-		localStorage.setItem("userId" , res.data); 
+		// const resData = JSON.parse(res.data)
+		// //set userId also
+		localStorage.setItem("user" , `${res.data.name}`);
+		localStorage.setItem("role" , `${res.data.role}`);
+		localStorage.setItem("userId" , `${res.data.id}`); 
+
 
 
 		window.location.href = "/"; 

@@ -21,4 +21,6 @@ public interface StudentRepo extends JpaRepository<Student , Integer> {
     @Query(value = "SELECT * FROM (SELECT * FROM student s NATURAL JOIN student_info si LEFT JOIN branches b USING (branch_id) );" , nativeQuery = true)
     public List<AllStudentInfo> getAllStudents();
 
+    @Query(value = "SELECT s.student_id , s.student_name FROM student_info s WHERE s.email = :email", nativeQuery = true)
+    public Optional<AllStudentInfo> getIdNameByMail(@Param("email") String email);
 }

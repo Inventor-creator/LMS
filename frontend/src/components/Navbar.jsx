@@ -1,19 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import api from "../services/api";
 
 const Navbar = () => {
   const location = useLocation();
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    // Try to get username from localStorage first
-      const username = localStorage.getItem("user");
-      
-        
-      setUsername(username || "");
-      
-    
+    const username = localStorage.getItem("user");
+    if (username) {
+      try {
+
+        setUsername(username || "");
+      } catch {
+        setUsername("");
+      }
+    } else {
+      setUsername("");
+    }
   }, [location]);
 
   const linkStyle = (path) => ({
@@ -21,7 +24,7 @@ const Navbar = () => {
     fontWeight: "bold",
     fontSize: "1.1rem",
     textDecoration: "none",
-    color: location.pathname === path ? "#00ffea" : "#fff", // Glow color for active tab
+    color: location.pathname === path ? "#00ffea" : "#fff",
     textShadow: location.pathname === path ? "0 0 8px #00ffea" : "none",
     transition: "color 0.2s"
   });
@@ -40,18 +43,31 @@ const Navbar = () => {
       borderBottom: "1px solid #333",
       boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
     }}>
-      <Link to="/" style={linkStyle("/")}>
-        LMS
-      </Link>
-      <Link to="/courses" style={linkStyle("/courses")}>
-        My Courses
-      </Link>
-      <Link to="/login" style={linkStyle("/login")}>
-        Login
-      </Link>
-      <div style={{ marginLeft: "auto", color: "#00ffea", fontWeight: "bold", fontSize: "1.1rem" }}>
-        {username && `${username}`}
+      <div style={{ display: "flex", alignItems: "center", flex: "0 1 auto" }}>
+        <Link to="/" style={linkStyle("/")}>
+          LMS
+        </Link>
+        <Link to="/courses" style={linkStyle("/courses")}>
+          My Courses
+        </Link>
+        <Link to="/login" style={linkStyle("/login")}>
+          Login
+        </Link>
       </div>
+      <div style={{ flex: "0.97 0 auto" }} />
+      {username && (
+        <div style={{
+          color: "#00ffea",
+          fontWeight: "bold",
+          fontSize: "1.1rem",
+          maxWidth: "200px",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap"
+        }}>
+         {username}
+        </div>
+      )}
     </nav>
   );
 };

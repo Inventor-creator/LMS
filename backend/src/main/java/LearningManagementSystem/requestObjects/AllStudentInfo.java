@@ -14,7 +14,13 @@ public class AllStudentInfo {
     public String number= "";
     public String email= "";
     public String studentName= "";
-//    public StudentInfo studentInfo;
+
+    //part of the thing i need, too lazy to create new obj
+    public AllStudentInfo(Integer studentId , String studentName){
+        this.studentId = studentId;
+        this.studentName = studentName;
+    }
+
 
     public AllStudentInfo(Integer branchId, Integer studentId, Integer year, String address, String email, String number, String studentName, String branchName) {
 

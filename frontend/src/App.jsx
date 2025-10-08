@@ -17,22 +17,21 @@ function RequireAuth({ children, requiredRole }) {
   useEffect(() => {
     // Get user info from localStorage
     const username = localStorage.getItem("user");
-
     let role = localStorage.getItem("role");
+	let id = localStorage.getItem("userId");
 	
 	//checks if the local storage username and role is valid or not
-	api.post('/checkValid', { "name" :username  , "role": role })
+	api.post('/checkValid', { "name" : username  , "role": role , "id" : id })
 	.then(() => {
         // If a requiredRole is specified, check if user has it
-        if (requiredRole && !role.includes(requiredRole)) {
+        if (requiredRole && role != requiredRole )  {
 			console.log("Role mismatch");
           	setValid(false);
         } else {
           setValid(true);
         }
         setChecking(false);
-      })
-      .catch(() => {
+	}).catch(() => {
         setValid(false);
         setChecking(false);
       });
