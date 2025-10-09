@@ -9,7 +9,10 @@ const EnrolledCourses = () => {
   // Fetch courses based on isActive
   const fetchCourses = (activeStatus) => {
     setLoading(true);
-    api.get(`/enrolledCourses/3?isActive=${activeStatus}`)
+
+    //check for user id from local storage
+    let uId = localStorage.getItem("userId");
+    api.get(`/enrolledCourses/${uId}?isActive=${activeStatus}`)
       .then(({ data }) => {
         setCourses(data || []);
         setLoading(false);
@@ -39,7 +42,7 @@ const EnrolledCourses = () => {
           background: "#242424", // <-- Change from "#fff" to "#222"
           color: "#fff",      // <-- Add this for white text
           zIndex: 999,
-          borderBottom: "1px solid #333",
+          
           padding: "16px 0 8px 0",
         }}
       >

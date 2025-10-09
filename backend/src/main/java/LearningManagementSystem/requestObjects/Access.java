@@ -5,9 +5,17 @@ public class Access {
     public String name;
     public String role;
     public Integer id;
+    public String uName = "";
 
     public Access(){
 
+    }
+
+    public Access(String name, String role, Integer id, String uName) {
+        this.name = name;
+        this.role = role;
+        this.id = id;
+        this.uName = uName;
     }
 
     public Access(String name, String role , Integer id) {
@@ -38,6 +46,14 @@ public class Access {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getuName() {
+        return uName;
+    }
+
+    public void setuName(String uName) {
+        this.uName = uName;
     }
 
     @Override

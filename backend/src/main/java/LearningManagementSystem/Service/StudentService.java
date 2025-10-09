@@ -58,7 +58,7 @@ public class StudentService {
     public Access getAccess(String email){
         Optional<AllStudentInfo> temp = sRepo.getIdNameByMail(email);
 
-        Access access = temp.isPresent() ?  new Access(email , "student" , temp.get().getStudentId()) :  new Access();
+        Access access = temp.isPresent() ?  new Access(email , "student" , temp.get().getStudentId() , temp.get().getStudentName()) :  new Access();
         return access;
     }
 }

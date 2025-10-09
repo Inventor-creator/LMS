@@ -19,7 +19,7 @@ const Login = () => {
 		localStorage.setItem("user" , `${res.data.name}`);
 		localStorage.setItem("role" , `${res.data.role}`);
 		localStorage.setItem("userId" , `${res.data.id}`); 
-
+    localStorage.setItem("uName" , `${res.data.uName}`);
 
 
 		window.location.href = "/"; 
