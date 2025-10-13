@@ -19,31 +19,19 @@ public class Courses {
     @JoinColumn(name="instructorId" , referencedColumnName = "instructorId")
     private Instructors instructor;
 
+    @Column(name = "enrollmentYear")
+    private Integer enrollmentYear;
+
     public Courses(){
 
     }
 
 
-    //take an instructor
-    public Courses(String courseName ,Instructors instructor) {
+    public Courses( String courseName, Instructors instructor, Integer enrollmentYear) {
+
         this.courseName = courseName;
         this.instructor = instructor;
-    }
-
-    public Instructors getInstructor() {
-        return instructor;
-    }
-
-    public void setInstructor(Instructors instructor) {
-        this.instructor = instructor;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+        this.enrollmentYear = enrollmentYear;
     }
 
     public Integer getCourseId() {
@@ -54,11 +42,27 @@ public class Courses {
         this.courseId = courseId;
     }
 
-    @Override
-    public String toString() {
-        return "Courses{" +
-                "courseId=" + courseId +
-                ", courseName='" + courseName + '\'' +
-                '}';
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public Instructors getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructors instructor) {
+        this.instructor = instructor;
+    }
+
+    public Integer getEnrollmentYear() {
+        return enrollmentYear;
+    }
+
+    public void setEnrollmentYear(Integer enrollmentYear) {
+        this.enrollmentYear = enrollmentYear;
     }
 }

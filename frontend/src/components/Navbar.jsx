@@ -19,15 +19,20 @@ const Navbar = () => {
     }
   }, [location]);
 
-  const linkStyle = (path) => ({
-    marginRight: "2rem",
-    fontWeight: "bold",
-    fontSize: "1.1rem",
-    textDecoration: "none",
-    color: location.pathname === path ? "#00ffea" : "#fff",
-    textShadow: location.pathname === path ? "0 0 8px #00ffea" : "none",
-    transition: "color 0.2s"
-  });
+  const linkStyle = (paths) => {
+    const match = Array.isArray(paths)
+      ? paths.includes(location.pathname)
+      : location.pathname === paths;
+    return {
+      marginRight: "2rem",
+      fontWeight: "bold",
+      fontSize: "1.1rem",
+      textDecoration: "none",
+      color: match ? "#00ffea" : "#fff",
+      textShadow: match ? "0 0 8px #00ffea" : "none",
+      transition: "color 0.2s"
+    };
+  };
 
   const handleUsernameClick = () => {
     navigate("/login");
@@ -57,7 +62,7 @@ const Navbar = () => {
           LMS
         </Link>
         {username && (
-          <Link to="/courses" style={linkStyle("/courses")}>
+          <Link to="/courses" style={linkStyle(["/courses", "/enroll"])}>
             My Courses
           </Link>
         )}

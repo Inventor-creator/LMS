@@ -29,10 +29,12 @@ public class Enrollments {
             return "userId or courseId dosent exist or student has already enrolled in the given course";
         }
 
+
     }
 
     //takes courseId, so configure frontend request accordingly,
     //stored in the database with the intention that multiple instructors can teach the same course
+    //get grades / attendance summary for this course too afterwards
     @GetMapping("/studentsEnrolled/{courseId}")
     public List<EnrollmentInfo> checkEnrolled(@PathVariable Integer courseId){
 

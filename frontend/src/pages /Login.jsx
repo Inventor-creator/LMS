@@ -11,11 +11,9 @@ const Login = () => {
     e.preventDefault();
     setError("");
     try {
-		// Send credentials to backend
+
 		const res = await api.post("/login", { "email": username, "password" :  password } );
-		
-		// const resData = JSON.parse(res.data)
-		// //set userId also
+
 		localStorage.setItem("user" , `${res.data.name}`);
 		localStorage.setItem("role" , `${res.data.role}`);
 		localStorage.setItem("userId" , `${res.data.id}`); 

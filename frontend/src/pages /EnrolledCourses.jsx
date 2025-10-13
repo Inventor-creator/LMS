@@ -94,6 +94,22 @@ const EnrolledCourses = () => {
           </table>
         )}
       </section>
+        <button
+        style={{
+          margin: "1rem 0",
+          padding: "0.5rem 1.5rem",
+          fontSize: "1rem",
+          background: "#00ffea",
+          color: "#222",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontWeight: "bold"
+        }}
+        onClick={() => window.location.href = '/enroll'}
+      >
+        Enroll in a New Course
+      </button>
     </>
   );
 };

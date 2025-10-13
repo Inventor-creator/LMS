@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @RestController
@@ -47,20 +48,25 @@ public class AuthController {
     public String validate( @RequestBody Access access ,HttpServletRequest request  , HttpServletResponse response) throws java.io.IOException{
 
         //array of cookies
-        Cookie[] reqCookie = request.getCookies();
-        Cookie cookie = reqCookie[0];
+
+        Optional<Cookie> myCookie = Arrays.stream(request.getCookies())
+                .filter(cookie -> "token".equals(cookie.getName()))
+                .findFirst();
 
 //        System.out.println(access);
 
-        if(auth.validateCookie(cookie , access)){
-            response.setStatus(200);
-            return "valid";
+            if(myCookie.isPresent()){
+                if (auth.validateCookie(myCookie.get(), access)) {
+                    response.setStatus(200);
+                    return "valid";
 
-        }
-        else{
+                }
+            }
+
+
+
             response.sendError(403 );
             return "not valid";
-        }
 
 
     }

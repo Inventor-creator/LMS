@@ -7,13 +7,14 @@ import Homepage from "./pages /Homepage";
 import Login from "./pages /Login";
 import api from './services/api';
 import AdminPage from './pages /AdminPage'; // Import your admin page component
+import EnrollCourse from './pages /EnrollCourse';
 
 // Pass requiredRole to RequireAuth for role-based access
 function RequireAuth({ children, requiredRole }) {
-  const location = useLocation();
-  const [checking, setChecking] = useState(true);
-  const [valid, setValid] = useState(false);
-
+	const location = useLocation();
+	const [checking, setChecking] = useState(true);
+	const [valid, setValid] = useState(false);
+	let id = localStorage.getItem("userId");
   useEffect(() => {
     // Get user info from localStorage
     const username = localStorage.getItem("user");
@@ -35,7 +36,7 @@ function RequireAuth({ children, requiredRole }) {
         setValid(false);
         setChecking(false);
       });
-  }, [location, requiredRole]);
+  }, [location, requiredRole ,id ]);
 
   if (checking) return <div>Checking authentication...</div>;
   if (!valid) return <Navigate to="/login" replace />;
@@ -49,13 +50,18 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route
-          path="/courses"
-          element={
-            <RequireAuth requiredRole="student">
-              <EnrolledCourses />
-            </RequireAuth>
-          }
+			path="/courses"
+			element={
+			<RequireAuth requiredRole="student">
+				<EnrolledCourses />
+			</RequireAuth>
+			}
         />
+		<Route path='/enroll' element={
+			<RequireAuth requiredRole="student">
+				<EnrollCourse />
+			</RequireAuth>
+		} />
         <Route
           path="/"
           element={
