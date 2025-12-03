@@ -1,5 +1,6 @@
 package LearningManagementSystem.Controller;
 
+import LearningManagementSystem.Model.AdminPasses;
 import LearningManagementSystem.Model.StudentPasses;
 import LearningManagementSystem.Service.Auth;
 import LearningManagementSystem.Service.StudentService;
@@ -29,16 +30,17 @@ public class AuthController {
     public Access setCookie(@RequestBody LoginInfo logInfo , HttpServletResponse response   )throws java.io.IOException {
 
         Optional<StudentPasses> checkStudent = auth.checkStuCredentials(logInfo);
+        Optional<AdminPasses> checkAdmin  = auth.checkAdminCredentials(logInfo);
 
+        if(checkStudent.isPresent() || checkAdmin.isPresent()){
 
-        if(checkStudent.isPresent()){
-
-            Access userDeets = sService.getAccess(logInfo.getEmail());
+            Access userDeets = auth.getAccess(logInfo.getEmail());
 
             response.addCookie(auth.getAuthCookie(userDeets ,logInfo.getEmail() ));
 
             return userDeets;
         }
+
 
         response.sendError(404);
         return new Access();

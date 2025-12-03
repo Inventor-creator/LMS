@@ -1,5 +1,6 @@
 package LearningManagementSystem.Service;
 
+import LearningManagementSystem.Model.Admins;
 import LearningManagementSystem.Model.Branches;
 import LearningManagementSystem.Model.Student;
 import LearningManagementSystem.Model.StudentInfo;
@@ -55,10 +56,5 @@ public class StudentService {
         return sRepo.getStudentByYear(year);
     }
 
-    public Access getAccess(String email){
-        Optional<AllStudentInfo> temp = sRepo.getIdNameByMail(email);
 
-        Access access = temp.isPresent() ?  new Access(email , "student" , temp.get().getStudentId() , temp.get().getStudentName()) :  new Access();
-        return access;
-    }
 }

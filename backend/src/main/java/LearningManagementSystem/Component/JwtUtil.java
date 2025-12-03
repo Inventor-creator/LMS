@@ -32,6 +32,8 @@ public class JwtUtil {
         claims.put("id",userDetails.getId() );
         claims.put("email" , mail);
 
+
+
         return createToken(claims, userDetails.getName());
     }
 
@@ -56,6 +58,17 @@ public class JwtUtil {
 
     public Boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
+    }
+
+    public Boolean validateToken(String token ) {
+        Claims claims = extractAllClaims(token);
+        String subject = claims.getSubject();
+        final String extractedUsername = claims.getSubject();
+        final Integer id =  Integer.parseInt( claims.get("id").toString() );
+        final String extracMail = claims.get("email").toString();
+//        System.out.println(id + " " + extracMail+ " " + username);
+//        System.out.println(extractedUsername.equals(username) );
+        return (extractedUsername.equals(subject) && !isTokenExpired(token) );
     }
 
     //integer id

@@ -1,9 +1,16 @@
 package LearningManagementSystem.Service;
 
 import LearningManagementSystem.Component.JwtUtil;
+import LearningManagementSystem.Model.AdminPasses;
+import LearningManagementSystem.Model.Admins;
 import LearningManagementSystem.Model.StudentPasses;
+import LearningManagementSystem.Repositories.AdminPassRepo;
+import LearningManagementSystem.Repositories.AdminRepo;
 import LearningManagementSystem.Repositories.StudentPassRepo;
+import LearningManagementSystem.Repositories.StudentRepo;
 import LearningManagementSystem.requestObjects.Access;
+import LearningManagementSystem.requestObjects.AllAdminInfo;
+import LearningManagementSystem.requestObjects.AllStudentInfo;
 import LearningManagementSystem.requestObjects.LoginInfo;
 
 import jakarta.servlet.http.Cookie;
@@ -16,7 +23,14 @@ import java.util.Optional;
 @Service
 public class Auth {
     @Autowired
-    StudentPassRepo passRepo;
+    StudentPassRepo studentPassRepo;
+    @Autowired
+    AdminPassRepo adPassRepo;
+    @Autowired
+    StudentRepo sRepo;
+
+    @Autowired
+    AdminRepo aRepo;
 
     //create another method for checking instructor credentials
     public Optional<StudentPasses> checkStuCredentials(LoginInfo loginInfo){
@@ -25,7 +39,17 @@ public class Auth {
         String password = loginInfo.getPassword();
 
 
-        return passRepo.lookForPass(mail , password);
+        return studentPassRepo.lookForPass(mail , password);
+    }
+
+    public Optional<AdminPasses> checkAdminCredentials(LoginInfo loginInfo){
+
+        String mail = loginInfo.getEmail();
+        String password = loginInfo.getPassword();
+
+        return adPassRepo.checkMailPass(mail , password);
+
+
     }
 
     @Autowired
@@ -48,4 +72,21 @@ public class Auth {
 
     }
 
+    public Access getAccess(String email) {
+        Optional<AllStudentInfo> temp = sRepo.getIdNameByMail(email);
+
+
+        if (temp.isEmpty()) {
+            Optional<AllAdminInfo> temp2 = aRepo.getAdminInfo(email);
+
+            if(temp2.isPresent()){
+                AllAdminInfo adminInfo = temp2.get();
+                return new Access(email, "admin", adminInfo.getAdminId(), adminInfo.getAdminName() , adminInfo.getAccessLvl());
+            }
+            return new Access();
+        }
+
+
+        return new Access(email, "student", temp.get().getStudentId(), temp.get().getStudentName());
+    }
 }

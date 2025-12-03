@@ -21,6 +21,8 @@ public class AdminPasses {
     @Column(name = "adminPass")
     private String adminPass;
 
+    public AdminPasses(){}
+
     public AdminPasses(Integer adminId, String adminMail, String adminPass) {
         this.adminId = adminId;
 

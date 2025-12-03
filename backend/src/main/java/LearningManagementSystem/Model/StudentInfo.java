@@ -37,12 +37,20 @@ public class StudentInfo {
         this.studentName = studentName;
     }
 
+    public Integer getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Integer studentId) {
+        this.studentId = studentId;
+    }
+
     public Student getStudent() {
         return student;
     }
 
-    public Integer getStudentId() {
-        return studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public String getAddress() {

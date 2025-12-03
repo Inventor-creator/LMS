@@ -6,6 +6,7 @@ public class Access {
     public String role;
     public Integer id;
     public String uName = "";
+    public Integer accessLevel = -1;
 
     public Access(){
 
@@ -18,10 +19,20 @@ public class Access {
         this.uName = uName;
     }
 
-    public Access(String name, String role , Integer id) {
+    public Access(String name, String role, Integer id, String uName , Integer accessLevel) {
         this.name = name;
         this.role = role;
         this.id = id;
+        this.uName = uName;
+        this.accessLevel = accessLevel;
+    }
+
+    public Integer getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(Integer accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     public Integer getId() {

@@ -23,6 +23,10 @@ public class Admins {
     @Column(name = "accessLvl")
     private Integer accessLvl;
 
+    public Admins(){
+
+    }
+
     public Admins(Integer adminId, String adminName, Integer accessLvl) {
         this.adminId = adminId;
         this.adminName = adminName;
