@@ -6,6 +6,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [userRole, setRole] = useState("");
+    const accessAdmin = localStorage.getItem("accessLevel");
     useEffect(() => {
         const username = localStorage.getItem("uName");
         const role = localStorage.getItem("role");
@@ -108,79 +109,75 @@ const Navbar = () => {
             </nav>
         );
     } else if (userRole === "admin") {
-        return (
-            <nav
-                style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    zIndex: 1000,
-                    display: "flex",
-                    alignItems: "center",
-                    padding: "1rem 2rem",
-                    background: "#222",
-                    borderBottom: "2px solid #424242ff",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                    borderRadius: "8px 8px 8px 8px",
-                    marginLeft: "4px",
-                    marginRight: "4px",
-                }}
-            >
-                <div
+        if (parseInt(accessAdmin) === 1) {
+            return (
+                <nav
                     style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        zIndex: 1000,
                         display: "flex",
                         alignItems: "center",
-                        flex: "0 1 auto",
+                        padding: "1rem 2rem",
+                        background: "#222",
+                        borderBottom: "2px solid #424242ff",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                        borderRadius: "8px 8px 8px 8px",
+                        marginLeft: "4px",
+                        marginRight: "4px",
                     }}
                 >
-                    {/* add admin dashboard stuff here*/}
-                    <Link to="/" style={linkStyle("/")}>
-                        LMS
-                    </Link>
-
-                    {/* {username && (
-                        <Link
-                            to="/courses"
-                            style={linkStyle(["/courses", "/enroll"])}
-                        >
-                            My Courses
-                        </Link>
-                    )}*/}
-
-                    {username && (
-                        <Link to="/admin" style={linkStyle(["/admin"])}>
-                            Admin Dashboard
-                        </Link>
-                    )}
-
-                    {!username && (
-                        <Link to="/login" style={linkStyle("/login")}>
-                            Login
-                        </Link>
-                    )}
-                </div>
-                <div style={{ flex: "0.95 0 auto" }} />
-                {username && (
                     <div
                         style={{
-                            color: "#00ffea",
-                            fontWeight: "bold",
-                            fontSize: "1.1rem",
-                            maxWidth: "200px",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            flex: "0 1 auto",
                         }}
-                        onClick={handleUsernameClick}
-                        title="Go to Login"
                     >
-                        {username}
+                        {/* add admin dashboard stuff here*/}
+                        <Link to="/" style={linkStyle("/")}>
+                            LMS
+                        </Link>
+
+                        {username && (
+                            <Link
+                                to="/createCourse"
+                                style={linkStyle(["/createCourse"])}
+                            >
+                                Create Courses
+                            </Link>
+                        )}
+
+                        {!username && (
+                            <Link to="/login" style={linkStyle("/login")}>
+                                Login
+                            </Link>
+                        )}
                     </div>
-                )}
-            </nav>
-        );
+                    <div style={{ flex: "0.95 0 auto" }} />
+                    {username && (
+                        <div
+                            style={{
+                                color: "#00ffea",
+                                fontWeight: "bold",
+                                fontSize: "1.1rem",
+                                maxWidth: "200px",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap",
+                                cursor: "pointer",
+                            }}
+                            onClick={handleUsernameClick}
+                            title="Go to Login"
+                        >
+                            {username}
+                        </div>
+                    )}
+                </nav>
+            );
+        }
     }
 };
 

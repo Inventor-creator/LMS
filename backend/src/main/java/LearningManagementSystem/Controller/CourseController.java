@@ -20,7 +20,10 @@ public class CourseController {
     @Autowired
     FlagsRepo fRepo;
 
-
+    @GetMapping("/getCourses")
+    public List<Courses> getAllCourses(){
+        return cService.getAll();
+    }
 
     //only accessible through adminAccess dashboard prolly ( for now only through postman )
     @PostMapping("/createCourse")

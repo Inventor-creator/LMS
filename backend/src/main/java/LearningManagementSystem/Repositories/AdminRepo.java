@@ -14,5 +14,5 @@ public interface AdminRepo extends JpaRepository<Admins, Integer> {
     @Query(value = "SELECT admin_id,admin_name,admin_pass,access_lvl FROM admins a NATURAL JOIN admin_passes ap WHERE admin_mail = :adMail" , nativeQuery = true)
     public Optional<AllAdminInfo> getAdminInfo(@Param("adMail") String adMail);
 
-    
+
 }

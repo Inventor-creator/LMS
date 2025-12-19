@@ -68,7 +68,7 @@ public class Auth {
     public Boolean validateCookie(Cookie cookie , Access access){
 
 
-        return jwtUtil.validateToken(cookie.getValue() , access.getName() , access.getId() );
+        return jwtUtil.validateToken(cookie.getValue() , access.getName() , access.getId() , access.getAccessLevel() );
 
     }
 

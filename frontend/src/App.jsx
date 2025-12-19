@@ -12,27 +12,42 @@ import EnrolledCourses from "./pages /EnrolledCourses";
 import Homepage from "./pages /Homepage";
 import Login from "./pages /Login";
 import api from "./services/api";
-import AdminPage from "./pages /AdminPage"; // Import your admin page component
+import CreateCourses from "./pages /CreateCourses"; // Import your admin page component
 import EnrollCourse from "./pages /EnrollCourse";
 
 // Pass requiredRole to RequireAuth for role-based access
-function RequireAuth({ children, requiredRole }) {
+function RequireAuth({ children, requiredRole, requiredLevel }) {
     const location = useLocation();
     const [checking, setChecking] = useState(true);
     const [valid, setValid] = useState(false);
     let id = localStorage.getItem("userId");
+
     useEffect(() => {
         // Get user info from localStorage
+        //mail
         const username = localStorage.getItem("user");
         let role = localStorage.getItem("role");
         let id = localStorage.getItem("userId");
-
+        let accessLvl = localStorage.getItem("accessLevel");
         //checks if the local storage username and role is valid or not
-        api.post("/checkValid", { name: username, role: role, id: id })
+        api.post("/checkValid", {
+            name: username,
+            role: role,
+            id: id,
+            accessLevel: accessLvl,
+        })
             .then(() => {
                 // If a requiredRole is specified, check if user has it
                 if (requiredRole && role != requiredRole) {
                     console.log("Role mismatch");
+                    setValid(false);
+                } else {
+                    setValid(true);
+                }
+                setChecking(false);
+
+                if (accessLvl && accessLvl != requiredLevel) {
+                    console.log("Access Permission mismatch");
                     setValid(false);
                 } else {
                     setValid(true);
@@ -43,7 +58,7 @@ function RequireAuth({ children, requiredRole }) {
                 setValid(false);
                 setChecking(false);
             });
-    }, [location, requiredRole, id]);
+    }, [location, requiredRole, id, requiredLevel]);
 
     if (checking) return <div>Checking authentication...</div>;
     if (!valid) return <Navigate to="/login" replace />;
@@ -72,13 +87,14 @@ function App() {
                         </RequireAuth>
                     }
                 />
+
                 <Route path="/" element={<Homepage />} />
 
                 <Route
-                    path="/admin"
+                    path="/createCourse"
                     element={
-                        <RequireAuth requiredRole="admin">
-                            <AdminPage />
+                        <RequireAuth requiredRole={"admin"} requiredLevel={1}>
+                            <CreateCourses />
                         </RequireAuth>
                     }
                 />

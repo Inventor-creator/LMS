@@ -43,7 +43,7 @@ public class UserController {
         return sService.getByYear(year);
     }
 
-    //filter year by
+    //change the validate token method here
     @PostMapping("/createStudent")
     public String makeStudentController(@RequestBody RequestStudent stu , HttpServletRequest request , HttpServletResponse response) throws IOException {
         Optional<Cookie> myCookie = Arrays.stream(request.getCookies())
@@ -54,6 +54,7 @@ public class UserController {
         }
         else{
             response.sendError(403 , "token not valid ");
+            return "";
         }
         return sService.createStudentService(stu);
 

@@ -22,6 +22,10 @@ public class Courses {
     @Column(name = "enrollmentYear")
     private Integer enrollmentYear;
 
+    @ManyToOne
+    @JoinColumn(name="branchId" , referencedColumnName = "branchId")
+    private Branches branch;
+
     public Courses(){
 
     }
@@ -32,6 +36,21 @@ public class Courses {
         this.courseName = courseName;
         this.instructor = instructor;
         this.enrollmentYear = enrollmentYear;
+    }
+
+    public Courses(String courseName, Instructors instructor, Integer enrollmentYear, Branches branch) {
+        this.courseName = courseName;
+        this.instructor = instructor;
+        this.enrollmentYear = enrollmentYear;
+        this.branch = branch;
+    }
+
+    public Branches getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branches branch) {
+        this.branch = branch;
     }
 
     public Integer getCourseId() {

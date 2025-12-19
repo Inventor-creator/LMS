@@ -51,4 +51,8 @@ public class CourseService {
         }
     }
 
+    public List<Courses> getAll(){
+        return  cRepo.findAll();
+    }
+
 }

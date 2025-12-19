@@ -30,6 +30,7 @@ public class JwtUtil {
         claims.put("name",userDetails.getName() );
         claims.put("role",userDetails.getRole() );
         claims.put("id",userDetails.getId() );
+        claims.put("access",userDetails.getAccessLevel());
         claims.put("email" , mail);
 
 
@@ -66,20 +67,22 @@ public class JwtUtil {
         final String extractedUsername = claims.getSubject();
         final Integer id =  Integer.parseInt( claims.get("id").toString() );
         final String extracMail = claims.get("email").toString();
+
 //        System.out.println(id + " " + extracMail+ " " + username);
 //        System.out.println(extractedUsername.equals(username) );
         return (extractedUsername.equals(subject) && !isTokenExpired(token) );
     }
 
     //integer id
-    public Boolean validateToken(String token, String username , Integer userId ) {
+    public Boolean validateToken(String token, String username , Integer userId , Integer accessPerms ) {
         Claims claims = extractAllClaims(token);
         final String extractedUsername = claims.getSubject();
         final Integer id =  Integer.parseInt( claims.get("id").toString() );
-        final String extracMail = claims.get("email").toString();
+//        final String extracMail = claims.get("email").toString();
+        final Integer accessLvl = Integer.parseInt(claims.get("access").toString());
 //        System.out.println(id + " " + extracMail+ " " + username);
 //        System.out.println(extractedUsername.equals(username) );
-        return (extractedUsername.equals(username) && !isTokenExpired(token) && id.equals(userId)  );
+        return (extractedUsername.equals(username) && !isTokenExpired(token) && id.equals(userId)  && accessPerms.equals(accessLvl) );
     }
 
     private Key getSignKey() {
