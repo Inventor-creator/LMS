@@ -5,6 +5,8 @@ import LearningManagementSystem.Repositories.InstructorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class InstructorService {
 
@@ -20,5 +22,12 @@ public class InstructorService {
         }
     }
 
+    public ArrayList<Instructors> searchInstructor(String startOfName){
+
+        return iRepo.getInstructorsByName(startOfName);
+
+
+
+    }
 
 }
