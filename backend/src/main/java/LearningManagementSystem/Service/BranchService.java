@@ -5,6 +5,9 @@ import LearningManagementSystem.Repositories.BranchRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BranchService {
 
@@ -21,6 +24,11 @@ public class BranchService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+
+    public List<Branches> getSimilarBranches(String branchName){
+        return branchRepo.getBranchesBySimilarName(branchName);
     }
 
 }

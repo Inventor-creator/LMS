@@ -6,11 +6,13 @@ public class createCourseReq {
     public String courseName;
     public Integer instructorId;
     public Integer enrollmentYear;
+    public Integer branchId;
 
-    public createCourseReq(String courseName, Integer instructorId, Integer enrollmentYear) {
+    public createCourseReq(String courseName, Integer instructorId, Integer enrollmentYear, Integer branchId) {
         this.courseName = courseName;
         this.instructorId = instructorId;
         this.enrollmentYear = enrollmentYear;
+        this.branchId = branchId;
     }
 
     public String getCourseName() {
@@ -35,5 +37,13 @@ public class createCourseReq {
 
     public void setEnrollmentYear(Integer enrollmentYear) {
         this.enrollmentYear = enrollmentYear;
+    }
+
+    public Integer getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Integer branchId) {
+        this.branchId = branchId;
     }
 }

@@ -1,8 +1,10 @@
 package LearningManagementSystem.Service;
 
+import LearningManagementSystem.Model.Branches;
 import LearningManagementSystem.Model.Courses;
 import LearningManagementSystem.Model.Instructors;
 import LearningManagementSystem.Model.Student;
+import LearningManagementSystem.Repositories.BranchRepo;
 import LearningManagementSystem.Repositories.InstructorRepo;
 import LearningManagementSystem.Repositories.StudentRepo;
 import LearningManagementSystem.requestObjects.createCourseReq;
@@ -21,17 +23,20 @@ public class CourseService {
     @Autowired
     InstructorRepo iRepo;
     @Autowired
+    BranchRepo bRepo;
+    @Autowired
     StudentRepo sRepo;
 
     //create a course request object
     public boolean createRepo(createCourseReq course){
 
-        if(cRepo.findByName(course.getCourseName() , course.getInstructorId()).isPresent()){
+        if(cRepo.findByName(course.getCourseName() , course.getInstructorId() , course.getBranchId()).isPresent()){
             return false;
         }
         else{
             Optional<Instructors> instructor = iRepo.findById(course.getInstructorId());
-            Courses nCourse = new Courses(course.getCourseName() , instructor.get() , course.getEnrollmentYear());
+            Optional<Branches> branch = bRepo.findById(course.getBranchId());
+            Courses nCourse = new Courses(course.getCourseName() , instructor.get() , course.getEnrollmentYear(), branch.get());
 
             cRepo.save(nCourse);
 

@@ -3,21 +3,23 @@ import { useEffect } from "react";
 import api from "../services/api";
 import { useState } from "react";
 import SearchInstructorBox from "../components/SearchInstructor";
+import SearchBranchesBox from "../components/SearchBranches";
 
 const CreateCourses = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    //here all the course data to send via json for creation
+    const [selectedInstructor, setSelectedInstructor] = useState("");
+    const [selectedBranch, setselectedBranch] = useState("");
+    const [courseName, setCourseName] = useState("");
+    const [eYear, setEYear] = useState("");
+
     const [search, setSearch] = useState("");
 
     // form state for creating a new course
-    const [form, setForm] = useState({
-        title: "",
-        description: "",
-        instructor: "",
-        duration: "",
-    });
+
     const [creating, setCreating] = useState(false);
 
     // fetch the courses from backend
@@ -28,12 +30,16 @@ const CreateCourses = () => {
         setCreating(true);
         setError(null);
 
-        // const createCourseObj = {
-        //     coruseName:
-        // };
+        let course = {
+            courseName: courseName,
+            instructorId: selectedInstructor,
+            enrollmentYear: eYear,
+            branchId: selectedBranch,
+        };
 
         try {
-            const res = await api.post("/createCourse", {});
+            const res = await api.post("/createCourse", course);
+            console.log(res);
         } catch (err) {
             if (err.name !== "AbortError")
                 setError(err.message || "Unknown error");
@@ -64,6 +70,14 @@ const CreateCourses = () => {
         fetchCourses();
     }, []);
 
+    const handleSelectedInstructor = (instructorId) => {
+        setSelectedInstructor(instructorId);
+    };
+
+    const handleSelectedBranch = (branchId) => {
+        setselectedBranch(branchId);
+    };
+
     // here admin is moderator of the system, can add or remove courses, assign instructors
     return (
         <>
@@ -77,7 +91,7 @@ const CreateCourses = () => {
                 }}
             >
                 {/* Create form */}
-                <form>
+                <form onSubmit={handleCreate}>
                     <h2>Create Course</h2>
                     <div className="grid grid-cols-1 gap-3 mb-4 justify-items-start">
                         <input
@@ -88,11 +102,8 @@ const CreateCourses = () => {
                                 float: "left",
                                 margin: "0 10px",
                             }}
-                            placeholder="Title*"
-                            value={form.title}
-                            onChange={(e) =>
-                                setForm({ ...form, title: e.target.value })
-                            }
+                            placeholder="Title"
+                            onChange={(e) => setCourseName(e.target.value)}
                             required
                         />
 
@@ -104,7 +115,46 @@ const CreateCourses = () => {
                                 margin: "0 10px",
                             }}
                         >
-                            <SearchInstructorBox />
+                            <SearchInstructorBox
+                                onSelect={handleSelectedInstructor}
+                            />
+                        </div>
+
+                        <input
+                            style={{
+                                width: "200px",
+                                height: "37px",
+                                fontSize: "20px",
+                                float: "left",
+                                margin: "0 10px",
+                            }}
+                            type="number"
+                            placeholder="Enrollement Year"
+                            onChange={(e) => {
+                                if (
+                                    parseInt(e.target.value) > 0 &&
+                                    parseInt(e.target.value) <= 4
+                                ) {
+                                    setEYear(e.target.value);
+                                } else {
+                                    alert("Enrollment year between 1 and 4");
+                                    e.target.value = "";
+                                }
+                            }}
+                            required
+                        />
+
+                        <div
+                            style={{
+                                width: "200px",
+                                height: "50px",
+                                fontSize: "20px",
+                                margin: "0 10px",
+                            }}
+                        >
+                            <SearchBranchesBox
+                                onSelect={handleSelectedBranch}
+                            />
                         </div>
 
                         <button
@@ -118,7 +168,7 @@ const CreateCourses = () => {
                     </div>
                 </form>
 
-                {/* Search + errors */}
+                {/* dosent work as of yet*/}
                 <div className="flex items-center justify-between mb-4">
                     <h2>Search Course</h2>
                     <div className="flex items-center gap-2">
@@ -143,7 +193,6 @@ const CreateCourses = () => {
                     </div>
                 </div>
             </div>
-            <p> {courses}</p>
         </>
     );
 };

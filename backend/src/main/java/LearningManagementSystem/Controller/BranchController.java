@@ -3,10 +3,10 @@ package LearningManagementSystem.Controller;
 import LearningManagementSystem.Model.Branches;
 import LearningManagementSystem.Service.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin(allowCredentials = "true" , origins = "http://localhost:5173")
@@ -28,5 +28,10 @@ public class BranchController {
 
     //create one for delete too
 
+
+    @GetMapping("/searchBranches/{similarBranch}")
+    public List<Branches> getSimilarBranches(@PathVariable("similarBranch") String similarBranch){
+        return branchService.getSimilarBranches(similarBranch);
+    }
 
 }

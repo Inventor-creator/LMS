@@ -28,14 +28,14 @@ public class CourseController {
     //only accessible through adminAccess dashboard prolly ( for now only through postman )
     @PostMapping("/createCourse")
     public String createCourse(@RequestBody createCourseReq course){
-        if(fRepo.isEditing().isPresent()) {
+//        if(fRepo.isEditing().isPresent()) {
 
             if (cService.createRepo(course)) {
                 return "Course created successfully";
             }
             return "Course already exists";
-        }
-        return "System not editable";
+//        }
+//        return "System not editable";
     }
 
     @GetMapping("/getCoursesByYear/{studentId}")
