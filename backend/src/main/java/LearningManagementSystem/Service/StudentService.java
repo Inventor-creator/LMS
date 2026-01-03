@@ -1,11 +1,9 @@
 package LearningManagementSystem.Service;
 
-import LearningManagementSystem.Model.Admins;
-import LearningManagementSystem.Model.Branches;
-import LearningManagementSystem.Model.Student;
-import LearningManagementSystem.Model.StudentInfo;
+import LearningManagementSystem.Model.*;
 import LearningManagementSystem.Repositories.BranchRepo;
 import LearningManagementSystem.Repositories.StudentInfoRepo;
+import LearningManagementSystem.Repositories.StudentPassRepo;
 import LearningManagementSystem.Repositories.StudentRepo;
 import LearningManagementSystem.requestObjects.Access;
 import LearningManagementSystem.requestObjects.AllStudentInfo;
@@ -24,26 +22,21 @@ public class StudentService {
     StudentInfoRepo sInfoRepo;
     @Autowired
     BranchRepo bRepo;
+    @Autowired
+    StudentPassRepo sPassRepo;
 
     public Optional<Student> getUserService(Integer userId){
         return sRepo.findById(userId);
     }
 
     public String createStudentService(RequestStudent student){
-        Student stu;
-        Optional<Branches> branch = bRepo.getBranchByName(student.BranchName);
+        Student stu = new Student(student.year, bRepo.getReferenceById(student.branchId));
 
-        if(branch.isPresent()) {
-            stu = new Student(student.year, branch.get());
-        }
-        else{
-            stu = new Student(student.year, null);
-        }
         sRepo.save(stu);
         StudentInfo stuInfo = new StudentInfo( stu ,student.address , student.number , student.email , student.studentName);
-
         sInfoRepo.save(stuInfo);
-
+        StudentPasses studentPass = new StudentPasses(stu , stuInfo , "default");
+        sPassRepo.save(studentPass);
         return "User created successfully";
     }
 

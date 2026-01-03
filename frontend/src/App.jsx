@@ -14,6 +14,7 @@ import Login from "./pages /Login";
 import api from "./services/api";
 import CreateCourses from "./pages /CreateCourses"; // Import your admin page component
 import EnrollCourse from "./pages /EnrollCourse";
+import AddStudents from "./pages /AddStudents";
 
 // Pass requiredRole to RequireAuth for role-based access
 function RequireAuth({ children, requiredRole, requiredLevel }) {
@@ -74,7 +75,7 @@ function App() {
                 <Route
                     path="/courses"
                     element={
-                        <RequireAuth requiredRole="student">
+                        <RequireAuth requiredRole={"student"} requiredLevel={0}>
                             <EnrolledCourses />
                         </RequireAuth>
                     }
@@ -82,7 +83,7 @@ function App() {
                 <Route
                     path="/enroll"
                     element={
-                        <RequireAuth requiredRole="student">
+                        <RequireAuth requiredRole={"student"} requiredLevel={0}>
                             <EnrollCourse />
                         </RequireAuth>
                     }
@@ -95,6 +96,14 @@ function App() {
                     element={
                         <RequireAuth requiredRole={"admin"} requiredLevel={1}>
                             <CreateCourses />
+                        </RequireAuth>
+                    }
+                />
+                <Route
+                    path="/addStudents"
+                    element={
+                        <RequireAuth requiredRole={"admin"} requiredLevel={1}>
+                            <AddStudents />
                         </RequireAuth>
                     }
                 />

@@ -23,6 +23,12 @@ public class StudentPasses {
     @Column(name = "password")
     private String password;
 
+    public StudentPasses(Student student, StudentInfo studentInfo, String password) {
+        this.student = student;
+        this.studentInfo = studentInfo;
+        this.password = password;
+    }
+
     public Integer getStudentId() {
         return studentId;
     }

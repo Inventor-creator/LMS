@@ -24,11 +24,6 @@ public class Student {
 
     }
 
-    public Student(Integer studentId, Integer year, Branches branch) {
-        this.studentId = studentId;
-        this.year = year;
-        this.branch = branch;
-    }
 
     public Student(Integer year, Branches branch) {
         this.year = year;

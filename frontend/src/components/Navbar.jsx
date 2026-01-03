@@ -150,12 +150,22 @@ const Navbar = () => {
                             </Link>
                         )}
 
+                        {username && (
+                            <Link
+                                to="/addStudents"
+                                style={linkStyle(["/addStudents"])}
+                            >
+                                Add Students
+                            </Link>
+                        )}
+
                         {!username && (
                             <Link to="/login" style={linkStyle("/login")}>
                                 Login
                             </Link>
                         )}
                     </div>
+
                     <div style={{ flex: "0.95 0 auto" }} />
                     {username && (
                         <div

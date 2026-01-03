@@ -7,15 +7,15 @@ public class RequestStudent {
         public String number;
         public String email;
         public String studentName;
-        public String BranchName;
+        public Integer branchId;
 
-    public RequestStudent(int year, String address, String number, String email, String studentName, String branchName) {
+    public RequestStudent(int year, String address, String number, String email, String studentName, Integer branchId) {
         this.year = year;
         this.address = address;
         this.number = number;
         this.email = email;
         this.studentName = studentName;
-        this.BranchName = branchName;
+        this.branchId = branchId;
     }
 
 }
