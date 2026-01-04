@@ -87,6 +87,6 @@ public class Auth {
         }
 
 
-        return new Access(email, "student", temp.get().getStudentId(), temp.get().getStudentName());
+        return new Access(email, "student", temp.get().getStudentId(), temp.get().getStudentName() , 0);
     }
 }

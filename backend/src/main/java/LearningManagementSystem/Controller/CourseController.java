@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,14 +40,14 @@ public class CourseController {
     }
 
     @GetMapping("/getCoursesByYear/{studentId}")
-    public List<Courses> getCourses(@PathVariable Integer studentId , HttpServletResponse response) throws IOException {
+    public List<Courses> getCourses(@PathVariable("studentId") Integer studentId , HttpServletResponse response) throws IOException {
 
-        if(fRepo.isEnrolling().isPresent()){
+//        if(fRepo.isEnrolling().isPresent()){
             return cService.getByYear(studentId);
-        }
+//        }
 
-        response.sendError(403 , "Enrollment isnt going on rn");
-        return null;
+//        response.sendError(403 , "Enrollment isnt going on rn");
+//        return null;
 
     }
 

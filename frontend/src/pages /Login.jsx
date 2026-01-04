@@ -21,9 +21,7 @@ const Login = () => {
             localStorage.setItem("userId", `${res.data.id}`);
             localStorage.setItem("uName", `${res.data.uName}`);
 
-            if (res.data.accessLevel > 0) {
-                localStorage.setItem("accessLevel", `${res.data.accessLevel}`);
-            }
+            localStorage.setItem("accessLevel", `${res.data.accessLevel}`);
 
             window.location.href = "/";
         } catch (err) {

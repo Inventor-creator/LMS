@@ -33,7 +33,7 @@ public class EnrollmentsService {
 
             Optional<EnrollmentInfo> isEnrolled = eRepo.getByStudentAndCName(enrollStudentRequest.studentId ,course.get().getCourseName());
             if(isEnrolled.isEmpty()) {
-                EnrollmentInfo enrollment = new EnrollmentInfo(enrollStudentRequest.year, student.get(), course.get(), false);
+                EnrollmentInfo enrollment = new EnrollmentInfo(student.get().getYear(), student.get(), course.get(), false);
 
                 eRepo.save(enrollment);
 

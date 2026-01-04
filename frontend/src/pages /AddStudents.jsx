@@ -8,7 +8,6 @@ const AddStudents = () => {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [branch, setBranch] = useState("");
-    const [year, setYear] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -19,7 +18,7 @@ const AddStudents = () => {
             number: phone,
             address: address,
             branchId: branch,
-            year: year,
+            year: "1",
         })
             .then(() => {
                 console.log("Student created successfully");
@@ -104,20 +103,6 @@ const AddStudents = () => {
                             placeholder="Address of Student"
                             onChange={(e) => {
                                 setAddress(e.target.value);
-                            }}
-                            style={{
-                                flex: 1,
-                                padding: "10px",
-                                fontSize: "16px",
-                            }}
-                        ></input>
-                    </div>
-                    <div style={{ display: "flex", gap: "8px" }}>
-                        <input
-                            type="text"
-                            placeholder="Year"
-                            onChange={(e) => {
-                                setYear(e.target.value);
                             }}
                             style={{
                                 flex: 1,
